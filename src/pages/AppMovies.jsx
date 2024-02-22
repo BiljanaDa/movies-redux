@@ -3,6 +3,8 @@ import { useDispatch, useSelector } from "react-redux";
 import MoviesService from "../services/movies.service";
 import { movieSelector } from "../store/movie/selectors";
 import { setMovie } from "../store/movie/slice";
+import MovieRow from "../components/MovieRow";
+import { Container, Row } from "react-bootstrap";
 
 export default function AppMovies() {
   const dispatch = useDispatch();
@@ -22,13 +24,13 @@ export default function AppMovies() {
   }, [dispatch]);
 
   return (
-    <div>
+    <Container>
       <h1>Movies</h1>
-      <ul>
+      <Row>
         {movies.map((movie) => (
-          <li key={movie.id}>{movie.title}</li>
+          <MovieRow key={movie.id} movie={movie} />
         ))}
-      </ul>
-    </div>
+      </Row>
+    </Container>
   );
 }
