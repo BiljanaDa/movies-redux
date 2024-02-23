@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import MoviesService from "../services/movies.service";
 import {
@@ -12,6 +12,9 @@ import {
   selectAllMovies,
   setMovie,
   setMovieSelection,
+  sortMoviesByDuration,
+  sortMoviesByName,
+  toggleSortOrder,
 } from "../store/movie/slice";
 import MovieRow from "../components/MovieRow";
 import { Button, Container, Row } from "react-bootstrap";
@@ -22,6 +25,8 @@ export default function AppMovies() {
   const searchTerm = useSelector(searchTermSelector);
   const searchResults = useSelector(searchResultsSelector);
   const selectedMovies = useSelector(selectedMoviesSelector);
+  const sortOrder = useSelector((state) => state.movie.sortOrder);
+  const [sortKey, setSortKey] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -54,6 +59,23 @@ export default function AppMovies() {
     dispatch(setMovieSelection(movieId));
   };
 
+  const handleSort = (key) => {
+    // If the same key is clicked again, toggle the sorting order
+    if (sortKey === key) {
+      dispatch(toggleSortOrder());
+    } else {
+      // If a different key is clicked, set it as the new sorting key
+      setSortKey(key);
+    }
+
+    // Trigger the corresponding sorting action
+    if (key === "name") {
+      dispatch(sortMoviesByName());
+    } else if (key === "duration") {
+      dispatch(sortMoviesByDuration());
+    }
+  };
+
   return (
     <Container>
       <h1>Movies</h1>
@@ -63,6 +85,12 @@ export default function AppMovies() {
       </Button>
       <Button variant="primary" onClick={handleDeselectAll}>
         Deselect All
+      </Button>
+      <Button variant="primary" onClick={() => handleSort("name")}>
+        Sort by Name {sortOrder === "asc" ? "asc" : "desc"}
+      </Button>
+      <Button variant="primary" onClick={() => handleSort("duration")}>
+        Sort by Duration {sortOrder === "asc" ? "asc" : "desc"}
       </Button>
       {moviesToDisplay.length === 0 ? (
         <p>No movies available.</p>

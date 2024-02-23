@@ -10,6 +10,7 @@ export const MovieSlice = createSlice({
       selected: [],
       counter: 0,
     },
+    sortOrder: "asc",
   },
   reducers: {
     setMovie(state, action) {
@@ -43,6 +44,26 @@ export const MovieSlice = createSlice({
       state.selectedMovies.selected = [];
       state.selectedMovies.counter = 0;
     },
+    sortMoviesByName(state) {
+      state.data.sort((a, b) => {
+        const nameA = a.title.toUpperCase();
+        const nameB = b.title.toUpperCase();
+        return state.sortOrder === "asc"
+          ? nameA.localeCompare(nameB)
+          : nameB.localeCompare(nameA);
+      });
+    },
+
+    sortMoviesByDuration(state) {
+      state.data.sort((a, b) => {
+        return state.sortOrder === "asc"
+          ? a.duration - b.duration
+          : b.duration - a.duration;
+      });
+    },
+    toggleSortOrder(state) {
+      state.sortOrder = state.sortOrder === "asc" ? "desc" : "asc";
+    },
   },
 });
 
@@ -53,6 +74,9 @@ export const {
   setMovieSelection,
   selectAllMovies,
   deselectAllMovies,
+  sortMoviesByName,
+  sortMoviesByDuration,
+  toggleSortOrder,
 } = MovieSlice.actions;
 
 export default MovieSlice.reducer;
