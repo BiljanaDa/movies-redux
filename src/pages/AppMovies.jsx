@@ -33,8 +33,7 @@ export default function AppMovies() {
       try {
         const response = await MoviesService.getAllMovies();
 
-        const data = response?.movies;
-
+        const data = response?.data;
         dispatch(setMovie(data));
       } catch (e) {
         console.log(e);
@@ -45,13 +44,12 @@ export default function AppMovies() {
 
   const moviesToDisplay = searchTerm ? searchResults : movies;
 
+
   const handleSelectAll = () => {
-    console.log("Dispatching selectAllMovies action");
     dispatch(selectAllMovies());
   };
 
   const handleDeselectAll = () => {
-    console.log("Dispatching deselectAllMovies action");
     dispatch(deselectAllMovies());
   };
 
@@ -60,15 +58,13 @@ export default function AppMovies() {
   };
 
   const handleSort = (key) => {
-    // If the same key is clicked again, toggle the sorting order
+    
     if (sortKey === key) {
       dispatch(toggleSortOrder());
     } else {
-      // If a different key is clicked, set it as the new sorting key
+     
       setSortKey(key);
     }
-
-    // Trigger the corresponding sorting action
     if (key === "name") {
       dispatch(sortMoviesByName());
     } else if (key === "duration") {
@@ -92,7 +88,7 @@ export default function AppMovies() {
       <Button variant="primary" onClick={() => handleSort("duration")}>
         Sort by Duration {sortOrder === "asc" ? "asc" : "desc"}
       </Button>
-      {moviesToDisplay.length === 0 ? (
+      {moviesToDisplay === undefined || moviesToDisplay.length === 0 ? (
         <p>No movies available.</p>
       ) : (
         <Row>

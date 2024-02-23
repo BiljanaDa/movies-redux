@@ -14,6 +14,7 @@ export const MovieSlice = createSlice({
   },
   reducers: {
     setMovie(state, action) {
+      console.log('action.payload: ', action.payload)
       state.data = action.payload;
     },
     setSearchTerm(state, action) {

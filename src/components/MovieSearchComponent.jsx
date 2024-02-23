@@ -14,7 +14,7 @@ export default function MovieSearchComponent() {
 
     try {
       const response = await MoviesService.getAllMovies({ searchTerm });
-      const data = response.movies;
+      const data = response.data;
 
       const filteredData = data.filter(
         (movie) =>
