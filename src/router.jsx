@@ -1,11 +1,12 @@
-import React from 'react'
-import { Route, Routes } from 'react-router-dom'
-import AppMovies from './pages/AppMovies'
+import React from "react";
+import { Navigate, Route, Routes } from "react-router-dom";
+import AppMovies from "./pages/AppMovies";
 
 export default function router() {
   return (
     <Routes>
-        <Route index path='/movies' element={<AppMovies/>} />
+      <Route path="/" element={<Navigate to={"/movies"} />} />
+      <Route path="/movies" element={<AppMovies />} />
     </Routes>
-  )
+  );
 }
