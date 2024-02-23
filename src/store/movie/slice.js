@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createAction, createSlice } from "@reduxjs/toolkit";
 
 export const MovieSlice = createSlice({
   name: "movie",
@@ -7,7 +7,7 @@ export const MovieSlice = createSlice({
     searchTerm: "",
     searchResults: [],
     selectedMovies: {
-      selected: [], // inicijalno prazan niz
+      selected: [],
       counter: 0,
     },
   },
@@ -35,9 +35,24 @@ export const MovieSlice = createSlice({
         state.selectedMovies.counter += 1;
       }
     },
+    selectAllMovies(state) {
+      state.selectedMovies.selected = state.data.map((movie) => movie.id);
+      state.selectedMovies.counter = state.data.length;
+    },
+    deselectAllMovies(state) {
+      state.selectedMovies.selected = [];
+      state.selectedMovies.counter = 0;
+    },
   },
 });
 
-export const { setMovie, setSearchTerm, setSearchResults, setMovieSelection } =
-  MovieSlice.actions;
+export const {
+  setMovie,
+  setSearchTerm,
+  setSearchResults,
+  setMovieSelection,
+  selectAllMovies,
+  deselectAllMovies,
+} = MovieSlice.actions;
+
 export default MovieSlice.reducer;

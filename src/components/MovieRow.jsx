@@ -3,7 +3,7 @@ import { Button, Card } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 import { setMovieSelection } from "../store/movie/slice";
 
-export default function MovieRow({ movie }) {
+export default function MovieRow({ movie, isSelected, onSetMovieSelection }) {
   const dispatch = useDispatch();
   const { id, title, genres, description, author, duration, poster_url } =
     movie;
@@ -28,8 +28,11 @@ export default function MovieRow({ movie }) {
           <Card.Text>Description: {description}</Card.Text>
           <Card.Text>Author: {author}</Card.Text>
           <Card.Text>Duration: {duration} minutes</Card.Text>
-          <Button variant="primary" onClick={handleSelect}>
-            Select
+          <Button
+            variant={isSelected ? "danger" : "primary"}
+            onClick={() => onSetMovieSelection(movie.id)}
+          >
+            {isSelected ? "Deselect" : "Select"}
           </Button>
         </Card.Body>
       </Card>

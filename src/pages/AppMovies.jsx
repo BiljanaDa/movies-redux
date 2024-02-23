@@ -7,9 +7,14 @@ import {
   searchTermSelector,
   selectedMoviesSelector,
 } from "../store/movie/selectors";
-import { setMovie } from "../store/movie/slice";
+import {
+  deselectAllMovies,
+  selectAllMovies,
+  setMovie,
+  setMovieSelection,
+} from "../store/movie/slice";
 import MovieRow from "../components/MovieRow";
-import { Container, Row } from "react-bootstrap";
+import { Button, Container, Row } from "react-bootstrap";
 
 export default function AppMovies() {
   const dispatch = useDispatch();
@@ -35,16 +40,41 @@ export default function AppMovies() {
 
   const moviesToDisplay = searchTerm ? searchResults : movies;
 
+  const handleSelectAll = () => {
+    console.log("Dispatching selectAllMovies action");
+    dispatch(selectAllMovies());
+  };
+
+  const handleDeselectAll = () => {
+    console.log("Dispatching deselectAllMovies action");
+    dispatch(deselectAllMovies());
+  };
+
+  const handleSetSelection = (movieId) => {
+    dispatch(setMovieSelection(movieId));
+  };
+
   return (
     <Container>
       <h1>Movies</h1>
       <p>Total selected movies: {selectedMovies.counter}</p>
+      <Button variant="primary" onClick={handleSelectAll}>
+        Select All
+      </Button>
+      <Button variant="primary" onClick={handleDeselectAll}>
+        Deselect All
+      </Button>
       {moviesToDisplay.length === 0 ? (
         <p>No movies available.</p>
       ) : (
         <Row>
           {moviesToDisplay.map((movie) => (
-            <MovieRow key={movie.id} movie={movie} />
+            <MovieRow
+              key={movie.id}
+              movie={movie}
+              isSelected={selectedMovies.selected.includes(movie.id)}
+              onSetMovieSelection={handleSetSelection}
+            />
           ))}
         </Row>
       )}
