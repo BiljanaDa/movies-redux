@@ -21,9 +21,7 @@ export default function AppMovies() {
       try {
         const response = await MoviesService.getAllMovies();
 
-        const data = response?.movies || [];
-
-        console.log("Data from API:", data);
+        const data = response?.movies;
 
         dispatch(setMovie(data));
       } catch (e) {
@@ -38,11 +36,15 @@ export default function AppMovies() {
   return (
     <Container>
       <h1>Movies</h1>
-      <Row>
-        {moviesToDisplay.map((movie) => (
-          <MovieRow key={movie.id} movie={movie} />
-        ))}
-      </Row>
+      {moviesToDisplay.length === 0 ? (
+        <p>No movies available.</p>
+      ) : (
+        <Row>
+          {moviesToDisplay.map((movie) => (
+            <MovieRow key={movie.id} movie={movie} />
+          ))}
+        </Row>
+      )}
     </Container>
   );
 }
