@@ -5,6 +5,7 @@ import {
   movieSelector,
   searchResultsSelector,
   searchTermSelector,
+  selectedMoviesSelector,
 } from "../store/movie/selectors";
 import { setMovie } from "../store/movie/slice";
 import MovieRow from "../components/MovieRow";
@@ -15,6 +16,7 @@ export default function AppMovies() {
   const movies = useSelector(movieSelector);
   const searchTerm = useSelector(searchTermSelector);
   const searchResults = useSelector(searchResultsSelector);
+  const selectedMovies = useSelector(selectedMoviesSelector);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -36,6 +38,7 @@ export default function AppMovies() {
   return (
     <Container>
       <h1>Movies</h1>
+      <p>Total selected movies: {selectedMovies.counter}</p>
       {moviesToDisplay.length === 0 ? (
         <p>No movies available.</p>
       ) : (

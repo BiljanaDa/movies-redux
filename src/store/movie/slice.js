@@ -6,6 +6,10 @@ export const MovieSlice = createSlice({
     data: [],
     searchTerm: "",
     searchResults: [],
+    selectedMovies: {
+      selected: [], // inicijalno prazan niz
+      counter: 0,
+    },
   },
   reducers: {
     setMovie(state, action) {
@@ -17,8 +21,23 @@ export const MovieSlice = createSlice({
     setSearchResults(state, action) {
       state.searchResults = action.payload;
     },
+    setMovieSelection(state, action) {
+      const movieId = action.payload;
+      const isSelected = state.selectedMovies.selected.includes(movieId);
+
+      if (isSelected) {
+        state.selectedMovies.selected = state.selectedMovies.selected.filter(
+          (id) => id !== movieId
+        );
+        state.selectedMovies.counter -= 1;
+      } else {
+        state.selectedMovies.selected.push(movieId);
+        state.selectedMovies.counter += 1;
+      }
+    },
   },
 });
 
-export const { setMovie, setSearchTerm, setSearchResults } = MovieSlice.actions;
+export const { setMovie, setSearchTerm, setSearchResults, setMovieSelection } =
+  MovieSlice.actions;
 export default MovieSlice.reducer;

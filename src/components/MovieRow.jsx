@@ -1,9 +1,15 @@
 import React from "react";
-import { Card } from "react-bootstrap";
+import { Button, Card } from "react-bootstrap";
+import { useDispatch } from "react-redux";
+import { setMovieSelection } from "../store/movie/slice";
 
 export default function MovieRow({ movie }) {
+  const dispatch = useDispatch();
   const { id, title, genres, description, author, duration, poster_url } =
     movie;
+  const handleSelect = () => {
+    dispatch(setMovieSelection(id));
+  };
   return (
     <li>
       <Card style={{ width: "18rem" }}>
@@ -22,6 +28,9 @@ export default function MovieRow({ movie }) {
           <Card.Text>Description: {description}</Card.Text>
           <Card.Text>Author: {author}</Card.Text>
           <Card.Text>Duration: {duration} minutes</Card.Text>
+          <Button variant="primary" onClick={handleSelect}>
+            Select
+          </Button>
         </Card.Body>
       </Card>
     </li>

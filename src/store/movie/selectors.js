@@ -8,3 +8,7 @@ export function searchResultsSelector(state) {
 export function searchTermSelector(state) {
   return state.movie.searchTerm;
 }
+
+export function selectedMoviesSelector(state) {
+  return state.movie.selectedMovies;
+}
