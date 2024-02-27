@@ -1,5 +1,9 @@
 import { createAction, createSlice } from "@reduxjs/toolkit";
 
+const middlewareActions = {
+  fetchMovies: () => {}
+}
+
 export const MovieSlice = createSlice({
   name: "movie",
   initialState: {
@@ -14,7 +18,7 @@ export const MovieSlice = createSlice({
   },
   reducers: {
     setMovie(state, action) {
-      console.log('action.payload: ', action.payload)
+      console.log('actio.payload in setMovie: ', action.payload)
       state.data = action.payload;
     },
     setSearchTerm(state, action) {
@@ -65,6 +69,8 @@ export const MovieSlice = createSlice({
     toggleSortOrder(state) {
       state.sortOrder = state.sortOrder === "asc" ? "desc" : "asc";
     },
+
+    ...middlewareActions
   },
 });
 
@@ -78,6 +84,7 @@ export const {
   sortMoviesByName,
   sortMoviesByDuration,
   toggleSortOrder,
+  fetchMovies,
 } = MovieSlice.actions;
 
 export default MovieSlice.reducer;

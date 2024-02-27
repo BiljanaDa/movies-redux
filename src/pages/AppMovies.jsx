@@ -9,6 +9,7 @@ import {
 } from "../store/movie/selectors";
 import {
   deselectAllMovies,
+  fetchMovies,
   selectAllMovies,
   setMovie,
   setMovieSelection,
@@ -27,22 +28,15 @@ export default function AppMovies() {
   const selectedMovies = useSelector(selectedMoviesSelector);
   const sortOrder = useSelector((state) => state.movie.sortOrder);
   const [sortKey, setSortKey] = useState(null);
-
+  
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await MoviesService.getAllMovies();
-
-        const data = response?.data;
-        dispatch(setMovie(data));
-      } catch (e) {
-        console.log(e);
-      }
-    };
-    fetchData();
+    dispatch(fetchMovies(""));
   }, [dispatch]);
 
+ 
+
   const moviesToDisplay = searchTerm ? searchResults : movies;
+
 
 
   const handleSelectAll = () => {
